@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             background: white;
             border-radius: 24px;
@@ -45,8 +45,42 @@
             opacity: 0.9;
         }
 
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #eee;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            background: #f9f9f9;
+            font-weight: bold;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: white;
+            color: #2d5a27;
+            border-bottom: 3px solid #2d5a27;
+        }
+
+        .tab:hover:not(.active) {
+            background: #f0f0f0;
+        }
+
         .content {
             padding: 40px 30px;
+        }
+
+        .product-info {
+            display: none;
+        }
+
+        .product-info.active {
+            display: block;
         }
 
         .section {
@@ -62,14 +96,14 @@
             padding-left: 15px;
         }
 
-        .product-info {
+        .info-grid {
             background: #f9f9f9;
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 20px;
         }
 
-        .product-info p {
+        .info-grid p {
             margin: 8px 0;
             font-size: 16px;
             color: #333;
@@ -86,22 +120,34 @@
             margin-bottom: 8px;
         }
 
-        .certificate-link {
+        .pdf-container {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f5f5f5;
+        }
+
+        .pdf-container iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+
+        .pdf-link {
             display: inline-block;
-            background: #f0f0f0;
-            border: 2px solid #2d5a27;
-            color: #2d5a27;
+            background: #2d5a27;
+            color: white;
             padding: 12px 24px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: bold;
-            margin-top: 10px;
+            margin-top: 15px;
             transition: all 0.3s;
         }
 
-        .certificate-link:hover {
-            background: #2d5a27;
-            color: white;
+        .pdf-link:hover {
+            background: #1e3d1a;
         }
 
         .footer {
@@ -126,6 +172,7 @@
             .header h1 { font-size: 24px; }
             .content { padding: 25px 20px; }
             .section-title { font-size: 18px; }
+            .pdf-container iframe { height: 400px; }
         }
     </style>
 </head>
@@ -136,37 +183,73 @@
             <p>100% Pure Ghanaian Shea Butter</p>
         </div>
 
+        <div class="tabs">
+            <div class="tab active" onclick="showProduct('unrefined')">Unrefined Shea Butter</div>
+            <div class="tab" onclick="showProduct('refined')">Refined Shea Butter</div>
+        </div>
+
         <div class="content">
+            <!-- UNREFINED SECTION -->
+            <div id="unrefined" class="product-info active">
+                <div class="section">
+                    <div class="section-title">About Our Unrefined Shea Butter</div>
+                    <div class="info-grid">
+                        <p><strong>🌍 Origin:</strong> Ghana, West Africa</p>
+                        <p><strong>✨ Type:</strong> Unrefined, Raw, Natural, Organic</p>
+                        <p><strong>🥜 Processing:</strong> Cold-pressed, no chemicals, handcrafted</p>
+                        <p><strong>🧴 Best For:</strong> Deep moisturizing, eczema, stretch marks, hair care</p>
+                        <p><strong>📦 Sizes:</strong> 500g | 1kg | 4L Bucket</p>
+                        <p><strong>🌿 Retains:</strong> Vitamins A, E, F, and natural latex (great for skin repair)</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">💛 Why Unrefined?</div>
+                    <p>✅ 100% pure, no additives or preservatives</p>
+                    <p>✅ Natural nutty, earthy aroma</p>
+                    <p>✅ Off-white to creamy yellow color (natural variation)</p>
+                    <p>✅ Gritty texture melts on contact with skin</p>
+                    <p>✅ Highest concentration of active healing properties</p>
+                </div>
+            </div>
+
+            <!-- REFINED SECTION -->
+            <div id="refined" class="product-info">
+                <div class="section">
+                    <div class="section-title">About Our Refined Shea Butter</div>
+                    <div class="info-grid">
+                        <p><strong>🌍 Origin:</strong> Ghana, West Africa</p>
+                        <p><strong>✨ Type:</strong> Refined, Filtered, Unscented</p>
+                        <p><strong>⚙️ Processing:</strong> Filtered and processed to remove impurities and natural odor</p>
+                        <p><strong>🧴 Best For:</strong> Everyday body moisturizer, lotion base, cosmetic formulations</p>
+                        <p><strong>📦 Sizes:</strong> 500g | 1kg | 4L Bucket</p>
+                        <p><strong>🧼 Properties:</strong> Smooth, creamy, white color, odorless</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">🤍 Why Refined?</div>
+                    <p>✅ Smooth, creamy texture with no grittiness</p>
+                    <p>✅ White color and completely odorless</p>
+                    <p>✅ Ideal for sensitive skin</p>
+                    <p>✅ Perfect base for adding essential oils and fragrances</p>
+                    <p>✅ Longer shelf life (36 months)</p>
+                </div>
+            </div>
+
+            <!-- CERTIFICATE OF ANALYSIS SECTION (SAME FOR BOTH) -->
             <div class="section">
-                <div class="section-title">About Our Shea Butter</div>
-                <div class="product-info">
-                    <p><strong>🌍 Origin:</strong> Ghana, West Africa</p>
-                    <p><strong>✨ Type:</strong> Unrefined, Raw, Natural</p>
-                    <p><strong>🧴 Best For:</strong> Moisturizing, Skin Nourishment, Hair Care</p>
-                    <p><strong>📦 Sizes:</strong> 500g | 1kg | 4L Bucket</p>
+                <div class="section-title">📄 Certificate of Analysis</div>
+                <div class="pdf-container">
+                    <iframe src="CERTIFICATE%20OF%20ANALYSIS.pdf"></iframe>
+                </div>
+                <div style="text-align: center; margin-top: 10px;">
+                    <a href="CERTIFICATE%20OF%20ANALYSIS.pdf" class="pdf-link" download>📥 Download PDF</a>
                 </div>
             </div>
 
             <div class="section">
-                <div class="section-title">Why Choose Us</div>
-                <p>✅ 100% Pure & Unrefined</p>
-                <p>✅ Ethically Sourced from Ghanaian Women</p>
-                <p>✅ No Additives, No Preservatives</p>
-                <p>✅ Cold-Pressed to Retain Nutrients</p>
-                <p>✅ Rich in Vitamins A, E, and F</p>
-            </div>
-
-            <div class="section">
-                <div class="section-title">📄 Certificate of Analysis</div>
-                <p>View our official quality analysis certificate below:</p>
-                <br>
-                <a href="CERTIFICATE%20OF%20ANALYSIS.pdf" class="certificate-link" target="_blank">
-                    📑 View Certificate of Analysis (PDF)
-                </a>
-            </div>
-
-            <div class="section">
-                <div class="section-title">Contact Us</div>
+                <div class="section-title">📞 Contact Us</div>
                 <p>📧 <strong>Email:</strong> info@whyteleafegroup.com</p>
                 <p>📍 <strong>Ghana HQ:</strong> 609 Abayateye Street, Nanakrom, East Legon Hills, Accra, Ghana</p>
                 <p>📍 <strong>UK Office:</strong> 124 City Road, London EC1V 2NX, United Kingdom</p>
@@ -175,7 +258,7 @@
 
             <div class="qr-note">
                 🔍 <strong>Scanned from Whyteleafe Group Product</strong><br>
-                Thank you for choosing authentic Ghanaian shea butter.
+                This QR code verifies authenticity. Thank you for choosing genuine Ghanaian shea butter.
             </div>
         </div>
 
@@ -183,5 +266,27 @@
             🇬🇭 Made in Ghana | Rooted in Africa, Connected Globally
         </div>
     </div>
+
+    <script>
+        function showProduct(product) {
+            // Hide all product sections
+            document.getElementById('unrefined').classList.remove('active');
+            document.getElementById('refined').classList.remove('active');
+            
+            // Remove active class from both tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected product
+            document.getElementById(product).classList.add('active');
+            
+            // Add active class to clicked tab
+            if (product === 'unrefined') {
+                tabs[0].classList.add('active');
+            } else {
+                tabs[1].classList.add('active');
+            }
+        }
+    </script>
 </body>
 </html>
