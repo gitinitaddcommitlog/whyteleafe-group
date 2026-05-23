@@ -1,292 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whyteleafe Group - Pure Ghana Shea Butter</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+<script>
+    function showProduct(product) {
+        // Hide all product sections
+        document.getElementById('unrefined').classList.remove('active');
+        document.getElementById('refined').classList.remove('active');
+        
+        // Remove active class from both tabs
+        const tabs = document.querySelectorAll('.tab');
+        tabs.forEach(tab => tab.classList.remove('active'));
+        
+        // Show selected product
+        document.getElementById(product).classList.add('active');
+        
+        // Add active class to clicked tab
+        if (product === 'unrefined') {
+            tabs[0].classList.add('active');
+        } else {
+            tabs[1].classList.add('active');
         }
+        
+        // Update URL without reloading the page
+        const url = new URL(window.location);
+        url.searchParams.set('type', product);
+        window.history.pushState({}, '', url);
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #f5f0e8 0%, #e8dfd3 100%);
-            min-height: 100vh;
-            padding: 20px;
+    // On page load, check URL parameter and show correct tab
+    window.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productType = urlParams.get('type');
+        
+        if (productType === 'refined') {
+            showProduct('refined');
+        } else {
+            showProduct('unrefined'); // Default to unrefined
         }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-
-        .header {
-            background: #2d5a27;
-            color: white;
-            padding: 40px 30px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 32px;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-        }
-
-        .header p {
-            font-size: 18px;
-            opacity: 0.9;
-        }
-
-        .tabs {
-            display: flex;
-            border-bottom: 2px solid #eee;
-        }
-
-        .tab {
-            flex: 1;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            background: #f9f9f9;
-            font-weight: bold;
-            color: #666;
-            transition: all 0.3s;
-        }
-
-        .tab.active {
-            background: white;
-            color: #2d5a27;
-            border-bottom: 3px solid #2d5a27;
-        }
-
-        .tab:hover:not(.active) {
-            background: #f0f0f0;
-        }
-
-        .content {
-            padding: 40px 30px;
-        }
-
-        .product-info {
-            display: none;
-        }
-
-        .product-info.active {
-            display: block;
-        }
-
-        .section {
-            margin-bottom: 35px;
-        }
-
-        .section-title {
-            font-size: 22px;
-            font-weight: bold;
-            color: #2d5a27;
-            margin-bottom: 15px;
-            border-left: 4px solid #2d5a27;
-            padding-left: 15px;
-        }
-
-        .info-grid {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-
-        .info-grid p {
-            margin: 8px 0;
-            font-size: 16px;
-            color: #333;
-        }
-
-        .badge {
-            display: inline-block;
-            background: #2d5a27;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-right: 8px;
-            margin-bottom: 8px;
-        }
-
-        .pdf-container {
-            margin-top: 20px;
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            overflow: hidden;
-            background: #f5f5f5;
-        }
-
-        .pdf-container iframe {
-            width: 100%;
-            height: 600px;
-            border: none;
-        }
-
-        .pdf-link {
-            display: inline-block;
-            background: #2d5a27;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 15px;
-            transition: all 0.3s;
-        }
-
-        .pdf-link:hover {
-            background: #1e3d1a;
-        }
-
-        .footer {
-            background: #f5f0e8;
-            padding: 25px 30px;
-            text-align: center;
-            font-size: 14px;
-            color: #666;
-            border-top: 1px solid #ddd;
-        }
-
-        .qr-note {
-            background: #e8f5e9;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-        }
-
-        @media (max-width: 600px) {
-            .header h1 { font-size: 24px; }
-            .content { padding: 25px 20px; }
-            .section-title { font-size: 18px; }
-            .pdf-container iframe { height: 400px; }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>🌿 WHYTELEAFE GROUP</h1>
-            <p>100% Pure Ghanaian Shea Butter</p>
-        </div>
-
-        <div class="tabs">
-            <div class="tab active" onclick="showProduct('unrefined')">Unrefined Shea Butter</div>
-            <div class="tab" onclick="showProduct('refined')">Refined Shea Butter</div>
-        </div>
-
-        <div class="content">
-            <!-- UNREFINED SECTION -->
-            <div id="unrefined" class="product-info active">
-                <div class="section">
-                    <div class="section-title">About Our Unrefined Shea Butter</div>
-                    <div class="info-grid">
-                        <p><strong>🌍 Origin:</strong> Ghana, West Africa</p>
-                        <p><strong>✨ Type:</strong> Unrefined, Raw, Natural, Organic</p>
-                        <p><strong>🥜 Processing:</strong> Cold-pressed, no chemicals, handcrafted</p>
-                        <p><strong>🧴 Best For:</strong> Deep moisturizing, eczema, stretch marks, hair care</p>
-                        <p><strong>📦 Sizes:</strong> 500g | 1kg | 4L Bucket</p>
-                        <p><strong>🌿 Retains:</strong> Vitamins A, E, F, and natural latex (great for skin repair)</p>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <div class="section-title">💛 Why Unrefined?</div>
-                    <p>✅ 100% pure, no additives or preservatives</p>
-                    <p>✅ Natural nutty, earthy aroma</p>
-                    <p>✅ Off-white to creamy yellow color (natural variation)</p>
-                    <p>✅ Gritty texture melts on contact with skin</p>
-                    <p>✅ Highest concentration of active healing properties</p>
-                </div>
-            </div>
-
-            <!-- REFINED SECTION -->
-            <div id="refined" class="product-info">
-                <div class="section">
-                    <div class="section-title">About Our Refined Shea Butter</div>
-                    <div class="info-grid">
-                        <p><strong>🌍 Origin:</strong> Ghana, West Africa</p>
-                        <p><strong>✨ Type:</strong> Refined, Filtered, Unscented</p>
-                        <p><strong>⚙️ Processing:</strong> Filtered and processed to remove impurities and natural odor</p>
-                        <p><strong>🧴 Best For:</strong> Everyday body moisturizer, lotion base, cosmetic formulations</p>
-                        <p><strong>📦 Sizes:</strong> 500g | 1kg | 4L Bucket</p>
-                        <p><strong>🧼 Properties:</strong> Smooth, creamy, white color, odorless</p>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <div class="section-title">🤍 Why Refined?</div>
-                    <p>✅ Smooth, creamy texture with no grittiness</p>
-                    <p>✅ White color and completely odorless</p>
-                    <p>✅ Ideal for sensitive skin</p>
-                    <p>✅ Perfect base for adding essential oils and fragrances</p>
-                    <p>✅ Longer shelf life (36 months)</p>
-                </div>
-            </div>
-
-            <!-- CERTIFICATE OF ANALYSIS SECTION (SAME FOR BOTH) -->
-            <div class="section">
-                <div class="section-title">📄 Certificate of Analysis</div>
-                <div class="pdf-container">
-                    <iframe src="CERTIFICATE%20OF%20ANALYSIS.pdf"></iframe>
-                </div>
-                <div style="text-align: center; margin-top: 10px;">
-                    <a href="CERTIFICATE%20OF%20ANALYSIS.pdf" class="pdf-link" download>📥 Download PDF</a>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="section-title">📞 Contact Us</div>
-                <p>📧 <strong>Email:</strong> info@whyteleafegroup.com</p>
-                <p>📍 <strong>Ghana HQ:</strong> 609 Abayateye Street, Nanakrom, East Legon Hills, Accra, Ghana</p>
-                <p>📍 <strong>UK Office:</strong> 124 City Road, London EC1V 2NX, United Kingdom</p>
-                <p>📱 <strong>Instagram/TikTok/X:</strong> @whyteleafegroup</p>
-            </div>
-
-            <div class="qr-note">
-                🔍 <strong>Scanned from Whyteleafe Group Product</strong><br>
-                This QR code verifies authenticity. Thank you for choosing genuine Ghanaian shea butter.
-            </div>
-        </div>
-
-        <div class="footer">
-            🇬🇭 Made in Ghana | Rooted in Africa, Connected Globally
-        </div>
-    </div>
-
-    <script>
-        function showProduct(product) {
-            // Hide all product sections
-            document.getElementById('unrefined').classList.remove('active');
-            document.getElementById('refined').classList.remove('active');
-            
-            // Remove active class from both tabs
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
-            // Show selected product
-            document.getElementById(product).classList.add('active');
-            
-            // Add active class to clicked tab
-            if (product === 'unrefined') {
-                tabs[0].classList.add('active');
-            } else {
-                tabs[1].classList.add('active');
-            }
-        }
-    </script>
-</body>
-</html>
+    });
+</script>
